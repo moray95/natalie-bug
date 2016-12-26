@@ -13,6 +13,7 @@
 		CE7D3EDA1E11913800018F3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7D3ED91E11913800018F3A /* Assets.xcassets */; };
 		CE7D3EDD1E11913800018F3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE7D3EDB1E11913800018F3A /* LaunchScreen.storyboard */; };
 		CE7D3EE81E11913800018F3A /* natalie_bugUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7D3EE71E11913800018F3A /* natalie_bugUITests.swift */; };
+		CE7D3EF41E1191B500018F3A /* Storyboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7D3EF31E1191B500018F3A /* Storyboards.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		CE7D3EE31E11913800018F3A /* natalie-bugUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "natalie-bugUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE7D3EE71E11913800018F3A /* natalie_bugUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = natalie_bugUITests.swift; sourceTree = "<group>"; };
 		CE7D3EE91E11913800018F3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE7D3EF31E1191B500018F3A /* Storyboards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storyboards.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			children = (
 				CE7D3ED21E11913800018F3A /* AppDelegate.swift */,
 				CE7D3ED41E11913800018F3A /* ViewController.swift */,
+				CE7D3EF31E1191B500018F3A /* Storyboards.swift */,
 				CE7D3ED61E11913800018F3A /* Main.storyboard */,
 				CE7D3ED91E11913800018F3A /* Assets.xcassets */,
 				CE7D3EDB1E11913800018F3A /* LaunchScreen.storyboard */,
@@ -103,6 +106,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CE7D3EEC1E11913800018F3A /* Build configuration list for PBXNativeTarget "natalie-bug" */;
 			buildPhases = (
+				CE7D3EF21E11914800018F3A /* ShellScript */,
 				CE7D3ECB1E11913800018F3A /* Sources */,
 				CE7D3ECC1E11913800018F3A /* Frameworks */,
 				CE7D3ECD1E11913800018F3A /* Resources */,
@@ -194,11 +198,28 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		CE7D3EF21E11914800018F3A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Natalie Generator: Determining if generated Swift file is up-to-date.\"\n\nNATALIE_PATH=`which natalie`\n\nif [ -f $NATALIE_PATH ]; then\n    BASE_PATH=\"$PROJECT_DIR/$PROJECT_NAME\"\n    OUTPUT_PATH=\"$BASE_PATH/Storyboards.swift\"\n    echo \"Base path: \" \"$BASE_PATH\"\n    if [ ! -e \"$OUTPUT_PATH\" ] || [ -n \"$(find \"$BASE_PATH\" -type f -name \"*.storyboard\" -newer \"$OUTPUT_PATH\" -print -quit)\" ];\n    then\n        echo \"Natalie Generator: Generated Swift is out-of-date; re-generating...\"\n\n        /usr/bin/chflags nouchg \"$OUTPUT_PATH\"\n        \"$NATALIE_PATH\" \"$BASE_PATH\" > \"$OUTPUT_PATH\"\n        /usr/bin/chflags uchg \"$OUTPUT_PATH\"\n\n        echo \"Natalie Generator: Done.\"\n    else\n        echo \"Natalie Generator: Generated Swift is up-to-date; skipping re-generation.\"\n    fi\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		CE7D3ECB1E11913800018F3A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE7D3EF41E1191B500018F3A /* Storyboards.swift in Sources */,
 				CE7D3ED51E11913800018F3A /* ViewController.swift in Sources */,
 				CE7D3ED31E11913800018F3A /* AppDelegate.swift in Sources */,
 			);
